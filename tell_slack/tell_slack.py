@@ -42,6 +42,6 @@ req.add_header("Charset", "UTF-8")
 
 post_data = json.dumps({"channel": channel, "text": text})
 
-with request.urlopen(req, data=post_data) as res:
+with request.urlopen(req, data=post_data.encode()) as res:
     print("Status:", res.status, res.reason)
     print("Data:", res.read().decode("utf-8"))
