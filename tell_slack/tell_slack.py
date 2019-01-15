@@ -40,7 +40,11 @@ req.add_header("Authorization", "Bearer " + slack_token)
 req.add_header("Content-type", "application/json")
 req.add_header("Charset", "UTF-8")
 
-post_data = json.dumps({"channel": channel, "text": text})
+post_data = json.dumps({
+    "channel": channel,
+    "text": text,
+    "mrkdwn": True,
+})
 
 with request.urlopen(req, data=post_data.encode()) as res:
     print("Status:", res.status, res.reason)
