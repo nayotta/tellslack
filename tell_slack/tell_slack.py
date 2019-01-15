@@ -5,15 +5,18 @@ import os
 import http
 from urllib import request, parse
 
-event_file = os.environ["GITHUB_EVENT_PATH"]
-log_file = os.environ["LOG_FILE"]
+event_file = os.environ.get("GITHUB_EVENT_PATH")
+log_file = os.environ.get("LOG_FILE")
 
-workflow = os.environ["GITHUB_WORKFLOW"]
-repo = os.environ["GITHUB_REPOSITORY"]
-sha = os.environ["GITHUB_SHA"]
+workflow = os.environ.get("GITHUB_WORKFLOW")
+repo = os.environ.get("GITHUB_REPOSITORY")
+sha = os.environ.get("GITHUB_SHA")
 
-slack_token = os.environ["SLACK_TOKEN"]
-channel = os.environ["SLACK_CHANNEL"]
+slack_token = os.environ.get("SLACK_TOKEN")
+channel = os.environ.get("SLACK_CHANNEL")
+
+if not slack_token or not channel:
+    print("SLACK_TOKEN or SLACK_CHANNEL not defined")
 
 with open(event_file) as f:
     event = json.load(f)
@@ -21,11 +24,16 @@ with open(event_file) as f:
     commit_url = event["head_commit"]["url"]
     repo_url = event["repository"]["url"]
 
-with open(log_file) as f:
-    log = f.read()
+if log_file:
+    with open(log_file) as f:
+        log = f.read()
+else:
+    log = None
 
-text = "[%s](%s)@[%s](%s) %s\n%s: %s" % (repo, repo_url, sha[:7],
-                                         commit_url, message.split("\n", 1)[0], workflow, log)
+text = "[%s](%s)@[%s](%s) %s" % (repo, repo_url, sha[:7],
+                                 commit_url, message.split("\n", 1)[0])
+if log:
+    text += "\n%s: %s" % (workflow, log)
 
 req = request.Request("https://slack.com/api/chat.postMessage")
 req.add_header("Authorization", "Bearer " + slack_token)
@@ -36,6 +44,6 @@ post_data = parse.urlencode([
     ("text", "hello world"),
 ])
 
-with request.urlopen(req, data=post_data.encode('utf-8')) as res:
-    print('Status:', res.status, res.reason)
-    print('Data:', res.read().decode('utf-8'))
+with request.urlopen(req, data=post_data.encode("utf-8")) as res:
+    print("Status:", res.status, res.reason)
+    print("Data:", res.read().decode("utf-8"))
