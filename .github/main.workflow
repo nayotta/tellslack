@@ -1,9 +1,9 @@
 workflow "New workflow" {
   on = "push"
-  resolves = ["./tell_slack"]
+  resolves = ["Tell Slack"]
 }
 
-action "./tell_slack" {
+action "Tell Slack" {
   uses = "./tell_slack"
   secrets = ["SLACK_TOKEN", "SLACK_CHANNEL"]
 }
