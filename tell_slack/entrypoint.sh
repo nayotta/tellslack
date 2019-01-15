@@ -1,5 +1,3 @@
 #!/bin/sh
 
-echo $GITHUB_WORKFLOW
-echo $GITHUB_REPOSITORY
-echo $GITHUB_SHA
+cat $GITHUB_EVENT_PATH
