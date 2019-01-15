@@ -10,4 +10,4 @@ LABEL "maintainer"="Bing Liu <bingliu221@gmail.com>"
 
 ADD tell_slack.py /tell_slack.py
 
-ENTRYPOINT ["python3", /tell_slack.py]
+ENTRYPOINT ["python3", "/tell_slack.py"]
