@@ -5,4 +5,5 @@ workflow "New workflow" {
 
 action "./tell_slack" {
   uses = "./tell_slack"
+  secrets = ["SLACK_TOKEN", "SLACK_CHANNEL"]
 }
