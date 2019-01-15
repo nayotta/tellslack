@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo $GITHUB_WORKFLOW
+echo $GITHUB_REPOSITORY
+echo $GITHUB_SHA
