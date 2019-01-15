@@ -3,7 +3,7 @@
 import json
 import os
 import http
-from urllib import request, parse
+from urllib import request
 
 event_file = os.environ.get("GITHUB_EVENT_PATH")
 log_file = os.environ.get("LOG_FILE")
@@ -38,12 +38,10 @@ if log:
 req = request.Request("https://slack.com/api/chat.postMessage")
 req.add_header("Authorization", "Bearer " + slack_token)
 req.add_header("Content-type", "application/json")
+req.add_header("Charset", "UTF-8")
 
-post_data = parse.urlencode([
-    ("channel", channel),
-    ("text", "hello world"),
-])
+post_data = json.dumps({"channel": channel, "text": text})
 
-with request.urlopen(req, data=post_data.encode("utf-8")) as res:
+with request.urlopen(req, data=post_data) as res:
     print("Status:", res.status, res.reason)
     print("Data:", res.read().decode("utf-8"))
