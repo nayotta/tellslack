@@ -31,6 +31,7 @@ with open(event_file) as f:
 
 log = ""
 if log_file:
+    print("reading log file: " + log_file)
     try:
         with open(log_file) as f:
             log = f.read()
@@ -40,6 +41,7 @@ if log_file:
 color = color_pass
 exit_code = 0
 if status_file:
+    print("reading status file: " + status_file)
     try:
         with open(status_file) as f:
             status = f.read()
