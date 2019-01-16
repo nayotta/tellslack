@@ -54,7 +54,7 @@ post_data = json.dumps({
     "channel": channel,
     "attachments": [
         {
-            "fallback": "Workflow " + workflow + " of " + repo " is finished",
+            "fallback": "Workflow " + workflow + " of " + repo + " is finished",
             "color": color,
             "author_name": sender_name,
             "author_icon": sender_avatar_url,
