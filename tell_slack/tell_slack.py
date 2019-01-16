@@ -29,14 +29,13 @@ with open(event_file) as f:
     sender_name = event["sender"]["login"]
     sender_avatar_url = event["sender"]["avatar_url"]
 
+log = ""
 if log_file:
     try:
         with open(log_file) as f:
             log = f.read()
     except FileNotFoundError:
         pass
-else:
-    log = ""
 
 color = color_pass
 exit_code = 0
