@@ -22,28 +22,37 @@ channel = os.environ.get("SLACK_CHANNEL")
 if not slack_token or not channel:
     print("SLACK_TOKEN or SLACK_CHANNEL not defined")
 
-with open(event_file) as f:
-    event = json.load(f)
-    message = event["head_commit"]["message"]
-    repo_url = event["repository"]["url"]
+try:
+    with open(event_file) as f:
+        event = json.load(f)
+        message = event["head_commit"]["message"]
+        repo_url = event["repository"]["url"]
 
-    sender_name = event["sender"]["login"]
-    sender_avatar_url = event["sender"]["avatar_url"]
+        sender_name = event["sender"]["login"]
+        sender_avatar_url = event["sender"]["avatar_url"]
+except FileNotFoundError:
+    pass
 
 if log_file:
-    with open(log_file) as f:
-        log = f.read()
+    try:
+        with open(log_file) as f:
+            log = f.read()
+    except FileNotFoundError:
+        pass
 else:
     log = ""
 
 color = color_pass
 exit_code = 0
 if status_file:
-    with open(status_file) as f:
-        status = f.read()
-        if status != "" and status != "0":
-            color = color_fail
-            exit_code = 1
+    try:
+        with open(status_file) as f:
+            status = f.read()
+            if status != "" and status != "0":
+                color = color_fail
+                exit_code = 1
+    except FileNotFoundError:
+        pass
 
 req = request.Request("https://slack.com/api/chat.postMessage")
 req.add_header("Authorization", "Bearer " + slack_token)
