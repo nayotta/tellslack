@@ -24,16 +24,14 @@ with open(event_file) as f:
     commit_url = event["head_commit"]["url"]
     repo_url = event["repository"]["url"]
 
+    sender_name = event["sender"]["login"]
+    sender_avatar_url = event["sender"]["avatar_url"]
+
 if log_file:
     with open(log_file) as f:
         log = f.read()
 else:
-    log = None
-
-text = "[%s](%s)@[%s](%s) %s" % (repo, repo_url, sha[:7],
-                                 commit_url, message.split("\n", 1)[0])
-if log:
-    text += "\n%s: %s" % (workflow, log)
+    log = ""
 
 req = request.Request("https://slack.com/api/chat.postMessage")
 req.add_header("Authorization", "Bearer " + slack_token)
@@ -42,8 +40,16 @@ req.add_header("Charset", "UTF-8")
 
 post_data = json.dumps({
     "channel": channel,
-    "text": text,
-    "mrkdwn": True,
+    "attachments": [
+        {
+            "fallback": "workflow status",
+            "color": "#000000",
+            "author_name": sender_name,
+            "author_icon": sender_avatar_url,
+            "title": "Workflow <" + repo_url + "/actions|" + workflow + "> of " + repo + "@" + sha[:7],
+            "text": log,
+        }
+    ]
 })
 
 with request.urlopen(req, data=post_data.encode()) as res:
