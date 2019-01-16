@@ -1,4 +1,4 @@
-workflow "New workflow" {
+workflow "Send message to slack" {
   on = "push"
   resolves = ["Tell Slack"]
 }
