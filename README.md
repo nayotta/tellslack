@@ -2,12 +2,12 @@
 
 Tellslack is a simple tool for sending message from github actions to slack.
 
-To use this action, you need 4 environment variables:
+To use this action, you need to set 4 environment variables:
 
-- SLACK_TOKEN    a user/bot token of slack
-- SLACK_CHANNEL  the channel you want to push messages to
-- LOG_FILE       the file contains message to send
-- STATUS_FILE    the file contains the exit code
+- *SLACK_TOKEN*    a user/bot token of slack
+- *SLACK_CHANNEL*  the channel you want to push messages to
+- *LOG_FILE*       the file contains message to send
+- *STATUS_FILE*    the file contains the exit code
 
 When a github workflow is running, a storage volume (`/github` If I guess) which contains the repo files is passed through actions.
 When you create a new file in this volume, you can access the same file in next action.
