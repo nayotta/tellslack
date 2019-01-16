@@ -22,16 +22,12 @@ channel = os.environ.get("SLACK_CHANNEL")
 if not slack_token or not channel:
     print("SLACK_TOKEN or SLACK_CHANNEL not defined")
 
-try:
-    with open(event_file) as f:
-        event = json.load(f)
-        message = event["head_commit"]["message"]
-        repo_url = event["repository"]["url"]
-
-        sender_name = event["sender"]["login"]
-        sender_avatar_url = event["sender"]["avatar_url"]
-except FileNotFoundError:
-    pass
+with open(event_file) as f:
+    event = json.load(f)
+    message = event["head_commit"]["message"]
+    repo_url = event["repository"]["url"]
+    sender_name = event["sender"]["login"]
+    sender_avatar_url = event["sender"]["avatar_url"]
 
 if log_file:
     try:
