@@ -39,15 +39,15 @@ if log_file:
         pass
 
 color = color_pass
-exit_code = 0
+status = "0"
 if status_file:
     print("reading status file: " + status_file)
     try:
         with open(status_file) as f:
             status = f.read()
+            status = status[len(status)]  # remove the "\n" in the end
             if status != "" and status != "0":
                 color = color_fail
-                exit_code = 1
     except FileNotFoundError:
         pass
 
@@ -75,4 +75,4 @@ with request.urlopen(req, data=post_data.encode()) as res:
     print("Status:", res.status, res.reason)
     print("Data:", res.read().decode("utf-8"))
 
-exit(exit_code)
+exit(status)
