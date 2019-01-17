@@ -45,7 +45,7 @@ if status_file:
     try:
         with open(status_file) as f:
             status = f.read()
-            status = status[:len(status - 1)]  # remove the "\n" in the end
+            status = status[:len(status) - 1]  # remove the "\n" in the end
             if status != "" and status != "0":
                 color = color_fail
     except FileNotFoundError:
