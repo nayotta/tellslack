@@ -44,7 +44,7 @@ if status_file:
     print("reading status file: " + status_file)
     try:
         with open(status_file) as f:
-            status = f.read()
+            status = f.readline()
             status = status[:len(status) - 1]  # remove the "\n" in the end
             if status != "" and status != "0":
                 color = color_fail
@@ -75,4 +75,4 @@ with request.urlopen(req, data=post_data.encode()) as res:
     print("Status:", res.status, res.reason)
     print("Data:", res.read().decode("utf-8"))
 
-exit(status)
+exit(int(status))
